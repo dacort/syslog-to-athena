@@ -76,11 +76,11 @@ A Docker file is provided for ease of installation wherever you may want to fun 
 
     ```shell
     docker run -it --rm \
-      df--name s3-docker-fluent-logger \
+      --name s3-docker-fluent-logger \
       -p 5140:5140/udp \
       -v $(pwd)s3-fluentd/log:/fluentd/log \
-      -e AWS_ACCESS_KEY_ID=<ACCESS_KEY> \
-      -e AWS_SECRET_ACCESS_KEY=<SECRET_KEY>
+      -e AWS_ACCESS_KEY_ID \
+      -e AWS_SECRET_ACCESS_KEY \
       s3-fluentd:latest
     ```
 
@@ -110,11 +110,11 @@ A table needs to be created in Athena that can query the Fluentd output data. Th
 
     ```sql
     CREATE EXTERNAL TABLE syslog (
-    host string,
-    ident string,
-    pid string,
-    message string,
-    time string
+        host string,
+        ident string,
+        pid string,
+        message string,
+        time string
     )
     ROW FORMAT SERDE 'org.openx.data.jsonserde.JsonSerDe'
     LOCATION 's3://<BUCKET>/syslog/';
